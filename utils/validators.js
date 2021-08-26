@@ -11,8 +11,8 @@ const validaNombreApellido = (value = '') => {
 const validaUsuario = (value = '') => {
     if (value.length === 0) {
         return 'No se puede dejar el campo vacío'
-    } else if (value.length > 12) {
-        return 'El usuario no puede contener más de 12 carácteres'
+    } else if (value.length > 18) {
+        return 'El usuario no puede contener más de 18 carácteres'
     }
 
     return true

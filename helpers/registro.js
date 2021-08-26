@@ -54,11 +54,6 @@ const opcionesConfirm = [
         type:'confirm',
         name:'confirmData',
         message:'¿Está de acuerdo con los datos introducidos?',
-        validate( value ){
-            if (value.length > 1){
-                return 'Introduzca (y) para confirmar (n) para repetir el proceso de registro'
-            }
-        }
     }
 ]
 

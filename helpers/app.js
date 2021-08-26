@@ -7,6 +7,8 @@ const { register, confirmData } = require("./registro")
 const msgSuperior = require('../utils/msgSuperior')
 
 const muestraDatosCodificados = require('../utils/muestraDatosRegistro')
+const loader = require('../utils/loaderUsuario')
+
 
 const app = async () => {
     let optSelected = ''
@@ -16,7 +18,6 @@ const app = async () => {
         switch (optSelected) {
             case '1':
                 // Inicio sesion
-                console.log('Inicio de sesion')
                 break;
             case '2':
                 // Registro
@@ -28,6 +29,12 @@ const app = async () => {
                     muestraDatosCodificados(data)
                     const resp = await confirmData()
                     confirm = resp.confirmData
+                    if (confirm){
+                        // Registrar usuario en BBDD
+
+                        await loader()
+                        
+                    }
                 }
                 break    
         }
