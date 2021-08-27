@@ -29,8 +29,20 @@ const validaEmail = (value = '') => {
     return true
 }
 
+const validaPassword = (value = '') => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+    const isValid = regex.test(value)
+
+    if(!isValid) {
+        return 'Debe contener un mínimo de 8 carácteres, una mayúscula, una minúscula y un dígito'
+    } 
+
+    return true
+}
+
 module.exports = {
     validaNombreApellido,
     validaUsuario,
-    validaEmail
+    validaEmail,
+    validaPassword
 }

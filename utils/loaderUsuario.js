@@ -12,6 +12,7 @@ const loader = async () => {
             aux++
             if (aux > 7) {
                 clearInterval(ID)
+                console.clear()
                 console.log('Usuario registrado con exito')
                 resolve(true)
             }

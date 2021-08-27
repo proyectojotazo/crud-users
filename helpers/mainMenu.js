@@ -25,7 +25,7 @@ const opcionesMenu = [
 ]
 
 const mainMenu = async () => {
-    console.clear()
+    // console.clear()
     msgSuperior('CRUD Usuarios')
       
     const { option: optSelected } = await inquirer.prompt(opcionesMenu)

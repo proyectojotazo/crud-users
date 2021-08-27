@@ -2,17 +2,17 @@ require('colors')
 
 const { mainMenu } = require("./mainMenu")
 const { pause } = require("./pause")
-const { register, confirmData } = require("./registro")
+const { register } = require("./registro")
 
 const msgSuperior = require('../utils/msgSuperior')
 
-const muestraDatosCodificados = require('../utils/muestraDatosRegistro')
-const loader = require('../utils/loaderUsuario')
+const Db = require('../models/db')
 
 
 const app = async () => {
     let optSelected = ''
-
+    const db = new Db()
+    
     do{
         optSelected = await mainMenu()
         switch (optSelected) {
@@ -25,16 +25,8 @@ const app = async () => {
                 
                 while(!confirm){
                     msgSuperior('Registro nuevo usuario')
-                    const data = await register()
-                    muestraDatosCodificados(data)
-                    const resp = await confirmData()
-                    confirm = resp.confirmData
-                    if (confirm){
-                        // Registrar usuario en BBDD
-
-                        await loader()
-                        
-                    }
+                    const [ data, confirmed ] = await register()
+                    confirm = confirmed.confirmData
                 }
                 break    
         }
