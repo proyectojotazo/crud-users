@@ -1,3 +1,4 @@
 node_modules/
 inquirerPruebas
-db
+db/data.json
+pruebas

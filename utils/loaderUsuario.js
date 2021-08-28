@@ -1,4 +1,5 @@
 const loaderSprites = ['.', '..', '...', '....']
+//TODO: Colorear con chalk
 
 const loader = async () => {
     let i = 4
@@ -10,7 +11,7 @@ const loader = async () => {
             console.clear()
             console.log(`Registrando usuario${loaderSprites[i++ % 4]}`)
             aux++
-            if (aux > 7) {
+            if (aux > 6) {
                 clearInterval(ID)
                 console.clear()
                 console.log('Usuario registrado con exito')

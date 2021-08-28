@@ -1,4 +1,5 @@
 require('colors')
+//TODO: Cambiar de 'colors' a 'chalk'
 
 const cabeceraSeccion = ( msg = '' ) => {
     let parentesis = ''
@@ -11,7 +12,8 @@ const cabeceraSeccion = ( msg = '' ) => {
     console.clear()
     console.log(parentesis.blue)
     console.log(`  ${msg.green}  `)
-    console.log(`${parentesis.blue}\n`)
+    console.log(parentesis.blue)
+    console.log()
 
 }
 
