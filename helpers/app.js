@@ -1,9 +1,9 @@
 const { white } = require('../utils/colores')
 //TODO: Cambiar de 'colors' a 'chalk'
 
-const { mainMenu } = require("./mainMenu")
-const { iniciarSesion } = require('./inicioSesion')
-const { register } = require("./registro")
+const { mainMenu } = require("./mainMenu/mainMenu")
+const { iniciarSesion } = require('./mainMenu/inicioSesion')
+const { register } = require("./mainMenu/registro")
 const { pause } = require("./pause")
 
 const ListaUsuarios = require('../models/listaUsuarios')

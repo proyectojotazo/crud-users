@@ -2,37 +2,37 @@ const inquirer = require('inquirer')
 
 const msgSuperior = require('../utils/msgSuperior')
 
-const opcionesMenu = [
+const opcionesUsuario = [
     {
         type:'list',
         name:'option',
         message:'Seleccione una opción:\n',
         choices: [
             {
-                name:'Iniciar Sesión',
+                name:'Mostrar mi perfil',
                 value: '1',
             },
             {
-                name:'Registrarse',
+                name:'Modificar mis datos',
                 value: '2',
             },
             {
-                name:'Salir',
+                name:'Cerrar Sesión',
                 value: '3',
             }
         ]
     }
 ]
 
-const mainMenu = async () => {
-    
-    msgSuperior('CRUD Usuarios')
-      
-    const { option: optSelected } = await inquirer.prompt(opcionesMenu)
+const menuUsuario = async ( usuario = {} ) => {
+
+    msgSuperior('Página Principal')
+
+    const { option: optSelected } = await inquirer.prompt(opcionesUsuario)
 
     return optSelected
 }
 
 module.exports = {
-    mainMenu
+    menuUsuario
 }

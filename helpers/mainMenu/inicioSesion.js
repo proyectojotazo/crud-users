@@ -1,5 +1,5 @@
 const inquirer = require('inquirer')
-const msgSuperior = require('../utils/msgSuperior')
+const msgSuperior = require('../../utils/msgSuperior')
 
 const opcionesInicioSesion = [
     {

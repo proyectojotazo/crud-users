@@ -1,11 +1,11 @@
 const inquirer = require('inquirer')
 
-const { blue, green, white } = require('../utils/colores')
+const { blue, green, white } = require('../../utils/colores')
 
-const msgSuperior = require('../utils/msgSuperior')
-const loader = require('../utils/loaderUsuario')
+const msgSuperior = require('../../utils/msgSuperior')
+const loader = require('../../utils/loaderUsuario')
 
-const { validaNombreApellido, validaEmail, validaUsuario, validaPassword } = require('../utils/validators')
+const { validaNombreApellido, validaEmail, validaUsuario, validaPassword } = require('../../utils/validators')
 
 
 const opcionesRegistro = [
@@ -109,7 +109,7 @@ const confirmPass = async (pass) => {
 const confirmData = async () => {
   // Muestra el input de confirmación para que el usuario acepte y vea si los datos son correctos
   const confirmed = await inquirer.prompt(opcionesConfirm)
-  return confirmed
+  return confirmed.confirmData
 }
 
 const register = async () => {
@@ -123,7 +123,7 @@ const register = async () => {
     muestraDatosCodificados(data) // Mostramos los datos introducidos por consola
     confirm = await confirmData() // Esperamos la confirmación de los datos por parte del usuario
 
-    if (confirm.confirmData) {
+    if (confirm) {
       // Si el usuario acepta los datos 
       await loader() // Falso loader con un setInterval
       return data // Devolvemos un objeto con todos los parametros
