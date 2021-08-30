@@ -1,4 +1,4 @@
-require('colors')
+const { white } = require('../utils/colores')
 //TODO: Cambiar de 'colors' a 'chalk'
 
 const { mainMenu } = require("./mainMenu")
@@ -6,22 +6,20 @@ const { iniciarSesion } = require('./inicioSesion')
 const { register } = require("./registro")
 const { pause } = require("./pause")
 
-
-
-const { cargaDB, guardarDB } = require('./getDatos')
-
 const ListaUsuarios = require('../models/listaUsuarios')
-const { existeUsuario, passCorrecto, compruebaUsuario } = require('../utils/existeUsuario')
+const DB = require('../models/db')
+
+const { compruebaUsuario } = require('../utils/existeUsuario')
 
 
 const app = async () => {
   let optSelected = ''
 
-  const db = cargaDB()
+  const db = new DB()
   const usuarios = new ListaUsuarios()
 
-  if (db) {
-    usuarios.cargarUsuarios(db)
+  if (db.db) {
+    usuarios.cargarUsuarios(db.db)
   }
 
   do {
@@ -35,24 +33,14 @@ const app = async () => {
         const usuarioEncontrado = compruebaUsuario(user_name, pass, usuarios.listado)
         
 
-        // dataInicioSesion = { user_name: 'XXX', pass: 'XXX}
-        // TODO: Comprobar que el usuario existe en la base de datos
-        // TODO: Si el usuario existe, comprobar que la contraseña es la de éste
-        // TODO: Si la contraseña no es la del usuario, devolverlo al menú principal
-        // TODO: Si la contraseña es correcta, mostrar menú de usuario
-        /* TODO: 
-          Mostrar error si:
-          - El usuario no existe 
-          - La contraseña introducida no es correcta
-        */
-
         // usuarios.muestraUsuarios()
         break;
       case '2':
+        
         // Registro usuarios
         const dataRegistro = await register()
         usuarios.agregarUsuario(dataRegistro)
-        guardarDB(usuarios.listado) // Guardamos en el .json los usuarios que hay actualmente
+        db.guardarDB(usuarios.listado) // Guardamos en el .json los usuarios que hay actualmente
 
         break
     }
@@ -60,7 +48,7 @@ const app = async () => {
 
   } while (optSelected !== '3')
 
-  console.log('\nGracias por usar ésta aplicación!\n'.green)
+  console.log(white('\nGracias por usar ésta aplicación!\n'))
 
 }
 

@@ -1,9 +1,10 @@
-require('colors')
-//TODO: Cambiar de 'colors' a 'chalk'
 const inquirer = require('inquirer')
+
+const { blue, green, white } = require('../utils/colores')
 
 const msgSuperior = require('../utils/msgSuperior')
 const loader = require('../utils/loaderUsuario')
+
 const { validaNombreApellido, validaEmail, validaUsuario, validaPassword } = require('../utils/validators')
 
 
@@ -80,29 +81,13 @@ const opcionesConfirm = [
   }
 ]
 
-const register = async () => {
-  // Muestra los inputs del registro
-  let confirm = false
-
-  while (!confirm) {
-    msgSuperior('Registro nuevo usuario')
-    const data = await inquirer.prompt(opcionesRegistro) // recogemos todas las respuestas
-    await confirmPass(data.pass) // Confirmamos que las contraseñas coincidan comparando la primera con la segunda contraseña
-    muestraDatosCodificados(data) // Mostramos los datos introducidos por consola
-    confirm = await confirmData() // Esperamos la confirmación de los datos por parte del usuario
-
-    if (confirm.confirmData) {
-      await loader() // Falso loader con un setInterval
-      return data // Devolvemos un objeto con todos los parametros y el confirmed para saber si hemos confirmado los datos
-    }
-  }
-}
-
 const confirmPass = async (pass) => {
   // Muestra el input de la confirmación de la contraseña
-  // Comprobamos que ambas contraseñas coincidan
+  // Comprobamos que ambas contraseñas coincidan, en caso de no coincidir nos repetirá la pregunta
+  
   let samePass = false
   while (!samePass) {
+
     await inquirer.prompt([
       {
         type: 'password',
@@ -116,27 +101,51 @@ const confirmPass = async (pass) => {
           return true
         }
       },
-    ]).then(() => samePass = true)
+    ])
+    .then(() => samePass = true)
   }
 }
 
 const confirmData = async () => {
-  // Muestra el input de confirmación de datos correctos
+  // Muestra el input de confirmación para que el usuario acepte y vea si los datos son correctos
   const confirmed = await inquirer.prompt(opcionesConfirm)
   return confirmed
 }
 
+const register = async () => {
+  // Muestra los inputs del registro
+  let confirm = false
+
+  while (!confirm) {
+    msgSuperior('Registro nuevo usuario')
+    const data = await inquirer.prompt(opcionesRegistro) // recogemos todas las respuestas
+    await confirmPass(data.pass) // Confirmamos que las contraseñas coincidan comparando la primera con la segunda contraseña
+    muestraDatosCodificados(data) // Mostramos los datos introducidos por consola
+    confirm = await confirmData() // Esperamos la confirmación de los datos por parte del usuario
+
+    if (confirm.confirmData) {
+      // Si el usuario acepta los datos 
+      await loader() // Falso loader con un setInterval
+      return data // Devolvemos un objeto con todos los parametros
+    }
+  }
+}
+
+
 const muestraDatosCodificados = (data = {}) => {
+  // Función que mostrará los datos introducidos al usuario
+
   const dataArr = Object.keys(data)
   const paramsArr = ['Nombre', 'Apellidos', 'Nombre Usuario', 'Email', 'Permisos Usuario', 'Contraseña']
+  
   console.clear()
-  console.log('\n--- Datos Introducidos ---\n'.green)
+  console.log(white('\n--- Datos Introducidos ---\n'))
 
   dataArr.forEach((key, i) => {
     if (i === 4) {
-      console.log(`${'- '.blue + paramsArr[i].blue + ':'.blue} ${data[key][0].green}`)// Los permisos vienen en {permisos:['XXX']}    
+      console.log(`${blue('- ' + paramsArr[i] + ':')} ${green(data[key][0])}`)// Los permisos vienen en {permisos:['XXX']}    
     } else {
-      console.log(`${'- '.blue + paramsArr[i].blue + ':'.blue} ${data[key].green}`)
+      console.log(`${blue('- ' + paramsArr[i] + ':')} ${green(data[key])}`)
     }
 
   })
