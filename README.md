@@ -1,6 +1,9 @@
 # CRUD básico de creación y gestión de usuarios
 ---
 
+## IMPORTANTE!
+- Sólo funciona correctamente en sistemas Windows, disculpen las molestias
+
 ## Información:
 
 - Tecnologías/Librerias usadas:
@@ -27,20 +30,19 @@
 
 - Actualmente sólo éxiste ésta funcionalidad
 
-## Próximas actualizaciones
----
-
-- Menú principal para cada usuario cambiando el mismo en función de si es *Administrador* o simplemente *Usuario*
-
-- Los usuarios podrán modificar sus datos desde el menú
-
-- Los *Administradores* podrán modificar la lista de usuarios pudiendo eliminar cualquiera de los mismos
-
-
 ### Ejecutar el programa
 ---
 - Con el proyecto clonado, usaremos `npm install` o `npm i` para instalar las dependencias necesarias para el funcionamiento
 
 - Una vez instaladas, usaremos el script `npm start` para ejecutar la aplicación
 
-## WORK IN PROGRESS
+## Próximas actualizaciones
+---
+
+- ***Menú principal***: para cada usuario cambiando el mismo en función de si es *Administrador* o simplemente *Usuario*
+
+- Los usuarios podrán modificar sus datos desde el menú
+
+- Los *Administradores* podrán modificar la lista de usuarios pudiendo eliminar cualquiera de los mismos
+
+    ## WORK IN PROGRESS
