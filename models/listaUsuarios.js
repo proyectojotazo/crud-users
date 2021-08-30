@@ -10,13 +10,13 @@ class ListaUsuarios {
         this.listado = []
     }
 
-    cargarUsuarios( usuarios = []){
+    cargarUsuarios( usuarios = [] ){
         usuarios.forEach(usuario => {
             this.listado.push(usuario)
         })
     }
 
-    agregarUsuario(usuario = {}){
+    agregarUsuario( usuario = {} ){
         const { nombre, apellidos, user_name, email, privilegios, pass } = usuario
         const nuevoUsuario = new Usuario(nombre, apellidos, user_name, email, privilegios[0], pass)
         this.listado.push(nuevoUsuario)
@@ -37,6 +37,17 @@ class ListaUsuarios {
             })
         }
         
+    }
+
+    devuelveUsuario(id = ''){
+        return this.listado.find(usuario => usuario.id === id)
+    }
+
+    modificaUsuario(antiguoUsuario = {}, nuevoUsuario = {}){
+
+        const indexUsuarioActualizar = this.listado.findIndex( usuario => usuario.nombre === antiguoUsuario.nombre)
+        this.listado.splice(indexUsuarioActualizar, 1, nuevoUsuario)
+
     }
 }
 

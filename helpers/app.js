@@ -25,23 +25,33 @@ const app = async () => {
 
   do {
     optSelected = await mainMenu()
-    
+
     switch (optSelected) {
       case '1':
         // Inicio sesion
-        const dataInicioSesion = await iniciarSesion()
-        const { user_name, pass } = dataInicioSesion
-        const usuarioLogeado = compruebaUsuario(user_name, pass, usuarios.listado)
-        console.log(usuarioLogeado)
-        await menuUsuario(usuarioLogeado)
+        const dataInicioSesion = await iniciarSesion() // Lanzamos el menu de iniciar sesion
+        const { user_name, pass } = dataInicioSesion // Obtenemos el nombre de usuario y la contraseña
+        const usuarioLogeado = compruebaUsuario(user_name, pass, usuarios.listado) // Comprobamos que el nombre de usuario y la contraseña existan en nuestra base de datos y nos devuelve el usuario
 
-        // usuarios.muestraUsuarios()
+        if (usuarioLogeado !== null) { // En caso de que pase la comprobación pasaremos a logear al usuario
+
+          const { privilegios_usuario, id } = usuarioLogeado // Obtenemos los privilegios para mostrar un menu en funcion de 'Administrador' o 'Usuario'
+          
+          if (privilegios_usuario === 'Administrador') {
+            console.log('Menu Administrador')
+          } else {
+            await menuUsuario(id, usuarios, db)
+          }
+        }
+
         break;
       case '2':
-        
+
         // Registro usuarios
         const dataRegistro = await register()
-        usuarios.agregarUsuario(dataRegistro)
+
+        usuarios.agregarUsuario(dataRegistro) // Agregamos al listado el nuevo usuario
+
         db.guardarDB(usuarios.listado) // Guardamos en el .json los usuarios que hay actualmente
 
         break

@@ -1,8 +1,8 @@
 const { underlineRed, green } = require('./colores')
 
 const compruebaUsuario = (user_name = '', pass = '', listaUsuarios = []) => {
-  const usuarioEncontrado = existeUsuario(user_name, listaUsuarios)
-  if (usuarioEncontrado.length === 0) { // Si no se encuentra el usuario
+  let usuarioEncontrado = existeUsuario(user_name, listaUsuarios)
+  if (usuarioEncontrado === null) { // Si no se encuentra el usuario
     console.log()
     console.log(underlineRed('El usuario y/o la contraseña son incorrectas'))
   } else { // Si se encuentra el usuario
@@ -12,14 +12,15 @@ const compruebaUsuario = (user_name = '', pass = '', listaUsuarios = []) => {
     } else { // Si el password no coincide
       console.log()
       console.log(underlineRed('El usuario y/o la contraseña son incorrectas'))
+      usuarioEncontrado = null
     }
   }
-  return usuarioEncontrado // Será un objeto con todos los parametros o []
+  return usuarioEncontrado // Será un objeto con todos los parametros del usuario o []
 }
 
 const existeUsuario = (user_name = '', listaUsuarios = []) => {
   // Comprobamos si existe el usuario en la lista de usuarios
-  return listaUsuarios.filter(usuario => usuario.nombre_usuario === user_name)[0] || []
+  return listaUsuarios.filter(usuario => usuario.nombre_usuario === user_name)[0] || null
 }
 
 const passCorrecto = (pass = '', usuarioEncontrado = {}) => {

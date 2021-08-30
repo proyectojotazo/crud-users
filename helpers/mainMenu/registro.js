@@ -3,7 +3,7 @@ const inquirer = require('inquirer')
 const { blue, green, white } = require('../../utils/colores')
 
 const msgSuperior = require('../../utils/msgSuperior')
-const { loaderRegistro } = require('../../utils/loaders')
+const { loader } = require('../../utils/loader')
 
 const { validaNombreApellido, validaEmail, validaUsuario, validaPassword } = require('../../utils/validators')
 
@@ -125,12 +125,11 @@ const register = async () => {
 
     if (confirm) {
       // Si el usuario acepta los datos 
-      await loaderRegistro() // Falso loader con un setInterval
+      await loader('registrar') // Falso loader con un setInterval
       return data // Devolvemos un objeto con todos los parametros
     }
   }
 }
-
 
 const muestraDatosCodificados = (data = {}) => {
   // Función que mostrará los datos introducidos al usuario

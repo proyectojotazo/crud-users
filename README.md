@@ -28,7 +28,7 @@
 
 - El usuario creado se guardará en un archivo `.json` que nos creará automaticamente la aplicación con sus datos correspondientes
 
-- Actualmente sólo éxiste ésta funcionalidad
+- Actualmente se puede iniciar sesión siempre y cuando el usuario tenga simplemente privilegios de *USUARIO*, aun no esta creado el menú de *ADMINISTRADOR*
 
 ### Ejecutar el programa
 ---
