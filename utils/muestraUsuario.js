@@ -1,5 +1,4 @@
-require('colors')
-//TODO: Cambiar de 'colors' a 'chalk'
+const { white, green } = require('./colores')
 
 const templateUsuario = ( usuario = {} ) => {
     const { nombre, apellidos, nombre_usuario, email, privilegios_usuario } = usuario
@@ -8,7 +7,7 @@ const templateUsuario = ( usuario = {} ) => {
 
     console.log()
     arrDataUsuario.forEach((value, i) => {
-        console.log(`- ${arrTitulos[i].white}: ${value.green}`)
+        console.log(`- ${white(arrTitulos[i])}: ${green(value)}`)
     }) 
 }
 

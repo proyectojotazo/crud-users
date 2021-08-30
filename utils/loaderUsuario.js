@@ -1,5 +1,5 @@
 const loaderSprites = ['.', '..', '...', '....']
-//TODO: Colorear con chalk
+const { white } = require('./colores')
 
 const loader = async () => {
     let i = 4
@@ -9,12 +9,12 @@ const loader = async () => {
         const ID = 
         setInterval(() => {
             console.clear()
-            console.log(`Registrando usuario${loaderSprites[i++ % 4]}`)
+            console.log(white(`Registrando usuario${loaderSprites[i++ % 4]}`))
             aux++
             if (aux > 6) {
                 clearInterval(ID)
                 console.clear()
-                console.log('Usuario registrado con exito')
+                console.log(white('Usuario registrado con exito'))
                 resolve(true)
             }
         }, 500)    
