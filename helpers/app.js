@@ -10,6 +10,7 @@ const ListaUsuarios = require('../models/listaUsuarios')
 const DB = require('../models/db')
 
 const { compruebaUsuario } = require('../utils/existeUsuario')
+const { menuUsuario } = require('./userMenu/menuUsuario')
 
 
 const app = async () => {
@@ -30,8 +31,8 @@ const app = async () => {
         // Inicio sesion
         const dataInicioSesion = await iniciarSesion()
         const { user_name, pass } = dataInicioSesion
-        const usuarioEncontrado = compruebaUsuario(user_name, pass, usuarios.listado)
-        
+        const usuarioLogeado = compruebaUsuario(user_name, pass, usuarios.listado)
+        await menuUsuario(usuarioLogeado)
 
         // usuarios.muestraUsuarios()
         break;

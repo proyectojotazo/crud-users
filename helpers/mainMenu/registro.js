@@ -3,7 +3,7 @@ const inquirer = require('inquirer')
 const { blue, green, white } = require('../../utils/colores')
 
 const msgSuperior = require('../../utils/msgSuperior')
-const loader = require('../../utils/loaderUsuario')
+const { loaderRegistro } = require('../../utils/loaders')
 
 const { validaNombreApellido, validaEmail, validaUsuario, validaPassword } = require('../../utils/validators')
 
@@ -125,7 +125,7 @@ const register = async () => {
 
     if (confirm) {
       // Si el usuario acepta los datos 
-      await loader() // Falso loader con un setInterval
+      await loaderRegistro() // Falso loader con un setInterval
       return data // Devolvemos un objeto con todos los parametros
     }
   }
