@@ -32,6 +32,7 @@ const app = async () => {
         const dataInicioSesion = await iniciarSesion()
         const { user_name, pass } = dataInicioSesion
         const usuarioLogeado = compruebaUsuario(user_name, pass, usuarios.listado)
+        console.log(usuarioLogeado)
         await menuUsuario(usuarioLogeado)
 
         // usuarios.muestraUsuarios()
