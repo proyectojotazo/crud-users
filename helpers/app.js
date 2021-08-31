@@ -11,6 +11,7 @@ const DB = require('../models/db')
 
 const { compruebaUsuario } = require('../utils/existeUsuario')
 const { menuUsuario } = require('./userMenu/menuUsuario')
+const { menuAdmin } = require('./adminMenu/menuAdmin')
 
 
 const app = async () => {
@@ -38,7 +39,7 @@ const app = async () => {
           const { privilegios_usuario, id } = usuarioLogeado // Obtenemos los privilegios para mostrar un menu en funcion de 'Administrador' o 'Usuario'
           
           if (privilegios_usuario === 'Administrador') {
-            console.log('Menu Administrador')
+            await menuAdmin(id, usuarios, db)
           } else {
             await menuUsuario(id, usuarios, db)
           }
