@@ -5,7 +5,7 @@ const msgValidators = {
     ${white('- No puede estar vacío')}
     ${white('- Debe contener un mínimo de 3 carácteres')}
     ${white('- No puede contener espacios adicionales')}
-    ${white('- No acepta carácteres especiales. Ej: ')}${green('+*_-')}    
+    ${white('- No acepta carácteres especiales ni números. Ej: ')}${green('+*_-')}    
     `,
     usuario: ` ${underlineRed('El campo no cumple con alguno de estos criterios:')}
     ${white('- No puede estar vacío')}
