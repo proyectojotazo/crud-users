@@ -6,7 +6,7 @@ const msgSuperior = require('../../utils/msgSuperior')
 const { loader } = require('../../utils/loader')
 const { templateUsuario } = require('../../utils/muestraUsuario')
 
-const { pause } = require('../pause')
+const { pause } = require('../../utils/pause')
 
 
 const opcionesUsuario = [

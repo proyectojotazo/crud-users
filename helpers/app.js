@@ -4,7 +4,7 @@ const { white } = require('../utils/colores')
 const { mainMenu } = require("./mainMenu/mainMenu")
 const { iniciarSesion } = require('./mainMenu/inicioSesion')
 const { register } = require("./mainMenu/registro")
-const { pause } = require("./pause")
+const { pause } = require("../utils/pause")
 
 const ListaUsuarios = require('../models/listaUsuarios')
 const DB = require('../models/db')
