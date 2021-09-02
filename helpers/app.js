@@ -1,17 +1,17 @@
 const { white } = require('../utils/colores')
-//TODO: Cambiar de 'colors' a 'chalk'
 
 const { mainMenu } = require("./mainMenu/mainMenu")
 const { iniciarSesion } = require('./mainMenu/inicioSesion')
 const { register } = require("./mainMenu/registro")
-const { pause } = require("../utils/pause")
+
+const { menuUsuario } = require('./userMenu/menuUsuario')
+const { menuAdmin } = require('./adminMenu/menuAdmin')
 
 const ListaUsuarios = require('../models/listaUsuarios')
 const DB = require('../models/db')
 
 const { compruebaUsuario } = require('../utils/existeUsuario')
-const { menuUsuario } = require('./userMenu/menuUsuario')
-const { menuAdmin } = require('./adminMenu/menuAdmin')
+const { pause } = require("../utils/pause")
 
 
 const app = async () => {
@@ -30,8 +30,7 @@ const app = async () => {
     switch (optSelected) {
       case '1':
         // Inicio sesion
-        const dataInicioSesion = await iniciarSesion() // Lanzamos el menu de iniciar sesion
-        const { user_name, pass } = dataInicioSesion // Obtenemos el nombre de usuario y la contraseña
+        const { user_name, pass } = await iniciarSesion() // Lanzamos el menu de iniciar sesion y obtenemos el nombre de usuario y la contraseña
         const usuarioLogeado = compruebaUsuario(user_name, pass, usuarios.listado) // Comprobamos que el nombre de usuario y la contraseña existan en nuestra base de datos y nos devuelve el usuario
 
         if (usuarioLogeado !== null) { // En caso de que pase la comprobación pasaremos a logear al usuario

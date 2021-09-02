@@ -39,8 +39,8 @@ const menuUsuario = async (idUsuario = '', usuarios = [], db) => {
 
     console.clear()
     msgSuperior('Página Principal')
-    const selected = await inquirer.prompt(opcionesUsuario)
-    optSelected = selected.option
+    const { option : selected } = await inquirer.prompt(opcionesUsuario)
+    optSelected = selected
 
     switch (optSelected) {
       case '1':

@@ -43,6 +43,10 @@ class ListaUsuarios {
         return this.listado.find(usuario => usuario.id === id)
     }
 
+    devuelveTipoUsuarios(){
+        return this.listado.filter(usuario => usuario.privilegios_usuario === 'Usuario')
+    }
+
     modificaUsuario(antiguoUsuario = {}, nuevoUsuario = {}){
 
         const indexUsuarioActualizar = this.listado.findIndex( usuario => usuario.nombre === antiguoUsuario.nombre)

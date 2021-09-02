@@ -108,8 +108,8 @@ const confirmPass = async (pass) => {
 
 const confirmData = async () => {
   // Muestra el input de confirmación para que el usuario acepte y vea si los datos son correctos
-  const confirmed = await inquirer.prompt(opcionesConfirm)
-  return confirmed.confirmData
+  const { confirmData: confirmed } = await inquirer.prompt(opcionesConfirm)
+  return confirmed
 }
 
 const register = async () => {

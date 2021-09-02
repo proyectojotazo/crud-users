@@ -1,5 +1,6 @@
 const inquirer = require('inquirer')
 const msgSuperior = require('../utils/msgSuperior')
+
 const { validaNombreApellido, validaUsuario, validaEmail, validaPassword } = require('../utils/validators')
 
 const opcionesActualizar = [
@@ -26,7 +27,7 @@ const opcionesActualizar = [
             },
             {
                 name: 'Contraseña',
-                value: 'pass'
+                value: 'pass',
             },
             {
                 name: 'Atrás',
@@ -37,31 +38,6 @@ const opcionesActualizar = [
         ]
     }
 ]
-
-const menuActualizaDatos = async () => {
-
-    console.log()
-
-    msgSuperior('Actualizar datos')
-
-    const campoSeleccionado = await inquirer.prompt(opcionesActualizar) // Tendremos el campo seleccionado 'nombre', 'apellidos'...
-
-    const nuevoDato = await actualizaDato(campoSeleccionado.option) // Tendremos el valor del nuevo campo a actualizar
-
-    return [ nuevoDato, campoSeleccionado.option ]
-}
-
-const actualizaDato = async (dato = '') => {
-
-    if (dato !== 'volver') {
-        const pregunta = devuelvePregunta(dato)
-        const nuevoDato = await inquirer.prompt(pregunta)
-        return nuevoDato[dato]
-    }
-
-    return null
-
-}
 
 const devuelvePregunta = (tipo = '') => {
     /**
@@ -77,7 +53,7 @@ const devuelvePregunta = (tipo = '') => {
     const mensajes = {
         nombre: 'Introduzca el nuevo nombre: ',
         apellidos: 'Introduzca el/los nuevo(s) apellido(s): ',
-        user_name: 'Introduzca el nuevo nombre de usuario: ',
+        nombre_usuario: 'Introduzca el nuevo nombre de usuario: ',
         email: 'Introduzca el nuevo email: ',
         pass: 'Introduzca la nueva contraseña: '
     }
@@ -85,7 +61,7 @@ const devuelvePregunta = (tipo = '') => {
     const validadores = {
         nombre: validaNombreApellido,
         apellidos: validaNombreApellido,
-        user_name: validaUsuario,
+        nombre_usuario: validaUsuario,
         email: validaEmail,
         pass: validaPassword,
     }
@@ -102,6 +78,30 @@ const devuelvePregunta = (tipo = '') => {
     return pregunta
 }
 
+const actualizaDato = async (dato = '') => {
+
+    if (dato !== 'volver') { // Si seleccionamos cualquier opción que no sea volver...
+        const pregunta = devuelvePregunta(dato)
+        const nuevoDato = await inquirer.prompt(pregunta)
+        return nuevoDato[dato]
+    }
+
+    return null
+
+}
+
+const menuActualizaDatos = async () => {
+
+    console.log()
+
+    msgSuperior('Actualizar datos')
+
+    const { option: campoSeleccionado } = await inquirer.prompt(opcionesActualizar) // Tendremos el campo seleccionado 'nombre', 'apellidos'...
+
+    const nuevoDato = await actualizaDato(campoSeleccionado) // Tendremos el valor del nuevo campo a actualizar
+
+    return [ nuevoDato, campoSeleccionado ]
+}
 
 module.exports = {
     menuActualizaDatos
