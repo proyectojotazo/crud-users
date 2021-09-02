@@ -2,7 +2,7 @@
 ---
 
 ## IMPORTANTE!
-- Sólo funciona correctamente en sistemas Windows, disculpen las molestias
+- Sólo se visualiza correctamente en sistemas Windows, disculpen las molestias
 
 ## Información:
 
@@ -24,11 +24,25 @@
     - Tipo de usuario (Administrador o Usuario)
     - Contraseña
 
+
     > Cada uno de los campos mencionados tiene su propia validación
 
 - El usuario creado se guardará en un archivo `.json` que nos creará automaticamente la aplicación con sus datos correspondientes
 
-- Actualmente se puede iniciar sesión siempre y cuando el usuario tenga simplemente privilegios de *USUARIO*, aun no esta creado el menú de *ADMINISTRADOR*
+- Hay 2 tipos de privilegios para los usuarios:
+    - **Usuario**
+    - **Administrador**
+
+- El **Usuario** puede:
+    - Ver sus datos
+    - Modificar sus datos
+
+- El **Administrador** puede:
+    - Ver sus datos
+    - Modificar sus datos
+    - Modificar datos de usuarios con privilegios de **Usuario**
+
+    > Actualmente, los administradores no pueden modificar datos de otros administradores
 
 ### Ejecutar el programa
 ---
@@ -38,10 +52,6 @@
 
 ## Próximas actualizaciones
 ---
-
-- ***Menú principal***: para cada usuario cambiando el mismo en función de si es *Administrador* o simplemente *Usuario*
-
-- Los usuarios podrán modificar sus datos desde el menú
 
 - Los *Administradores* podrán modificar la lista de usuarios pudiendo eliminar cualquiera de los mismos
 
