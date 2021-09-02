@@ -7,7 +7,6 @@ const { loader } = require('../../utils/loader')
 
 const { validaNombreApellido, validaEmail, validaUsuario, validaPassword } = require('../../utils/validators')
 
-
 const opcionesRegistro = [
   {
     type: 'input',

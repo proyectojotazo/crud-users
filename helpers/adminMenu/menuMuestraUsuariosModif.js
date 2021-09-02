@@ -29,9 +29,9 @@ const muestraUsuariosModif = async (listadousuarios = []) => {
 
     msgSuperior('Modificar Usuarios')
 
-    const usuarioSeleccionado = await inquirer.prompt(opcionesModificaUsuario)
+    const { user: userID } = await inquirer.prompt(opcionesModificaUsuario)
 
-    return usuarioSeleccionado
+    return userID === 'volver' ? null : userID
 }
 
 module.exports = {

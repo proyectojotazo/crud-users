@@ -23,12 +23,16 @@ const opcionesAdmin = [
         value: '2',
       },
       {
-        name: 'Modificar usuarios',
+        name: 'Modificar usuario',
         value: '3'
       },
       {
-        name: 'Cerrar Sesión',
+        name: 'Eliminar usuario(s)',
         value: '4',
+      },
+      {
+        name: 'Cerrar sesión',
+        value: '5'
       }
     ]
   }
@@ -37,8 +41,12 @@ const opcionesAdmin = [
 const menuAdmin = async (idAdmin = '', usuarios = [], db) => {
   let optSelected = ''
 
+
   do {
     const adminLogeado = usuarios.devuelveUsuario(idAdmin)
+
+    // Conseguir el listado de todos los usuarios
+    const listadoUsuarios = usuarios.devuelveTipoUsuarios()
 
     console.clear()
     msgSuperior('Menú Administrador')
@@ -65,19 +73,17 @@ const menuAdmin = async (idAdmin = '', usuarios = [], db) => {
         }
         break;
       case '3':
-        // Modificar usuarios
-        
-        // Conseguir el listado de todos los usuarios
-        const listadoUsuarios = usuarios.devuelveTipoUsuarios()
+        // Modificar usuario
 
         // Mostramos usuarios y obtenemos el id del usuario a modificar
-        const { user: idUserSelected } = await muestraUsuariosModif(listadoUsuarios)
+        const idUserSelected = await muestraUsuariosModif(listadoUsuarios)
+        // Importante! idUserSelected puede ser un id o 'null'
         
-        if (idUserSelected === 'volver') break
+        if (!idUserSelected) break 
         // Obtenemos el usuario a modificar
         const usuarioAmodificar = usuarios.devuelveUsuario(idUserSelected)
         
-        // TODO: Mostrar si queremos actualizar algún campo del mismo o queremos eliminarlo o volver a la selección de usuario
+        // Mostramos si queremos actualizar algún campo del mismo o queremos eliminarlo o volver a la selección de usuario
         const [nuevoDatoUsuario, tipoDatoUsuario] = await menuActualizaDatos() //Recuperamos el nuevo dato y el tipo 'nombre'/'apellido'...
 
         if (nuevoDatoUsuario !== null && tipoDatoUsuario !== 'volver') { // Si no presionamos en volver, nos devolverá ambos datos 
@@ -88,11 +94,16 @@ const menuAdmin = async (idAdmin = '', usuarios = [], db) => {
           await loader('actualizar')
         }
         break;
+      case '4':
+        // Eliminar usuarios
+
+
+        break;
     }
 
-    if (optSelected !== '4') await pause()
+    if (optSelected !== '5') await pause()
 
-  } while (optSelected !== '4');
+  } while (optSelected !== '5');
 
   await loader('cerrar') // cerramos sesion
 }
