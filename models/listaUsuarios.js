@@ -43,6 +43,10 @@ class ListaUsuarios {
         return this.listado.find(usuario => usuario.id === id)
     }
 
+    devuelveNombresUsuarios(){
+        return this.listado.map(usuario => usuario.nombre_usuario)
+    }
+
     devuelveTipoUsuarios(){
         return this.listado.filter(usuario => usuario.privilegios_usuario === 'Usuario')
     }
@@ -52,6 +56,10 @@ class ListaUsuarios {
         const indexUsuarioActualizar = this.listado.findIndex( usuario => usuario.nombre === antiguoUsuario.nombre)
         this.listado.splice(indexUsuarioActualizar, 1, nuevoUsuario)
 
+    }
+
+    borraUsuario(idUsuario = ''){
+        this.listado = this.listado.filter( usuario => usuario.id !== idUsuario)
     }
 }
 
