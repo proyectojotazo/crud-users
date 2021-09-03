@@ -1,4 +1,6 @@
 const inquirer = require('inquirer')
+const separator = new inquirer.Separator()
+
 const msgSuperior = require('../utils/msgSuperior')
 
 const { validaNombreApellido, validaUsuario, validaEmail, validaPassword } = require('../utils/validators')
@@ -29,6 +31,7 @@ const opcionesActualizar = [
                 name: 'Contraseña',
                 value: 'pass',
             },
+            separator,
             {
                 name: 'Atrás',
                 value: 'volver'
@@ -100,7 +103,13 @@ const menuActualizaDatos = async () => {
 
     const nuevoDato = await actualizaDato(campoSeleccionado) // Tendremos el valor del nuevo campo a actualizar
 
-    return [ nuevoDato, campoSeleccionado ]
+    const data = {
+        nuevoDato, // Será el nuevo dato a introducir en el usuario
+        campoSeleccionado, 
+        volver: campoSeleccionado === 'volver' ? true : false
+    }
+
+    return data
 }
 
 module.exports = {
