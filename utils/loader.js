@@ -14,6 +14,10 @@ const msgLoader = {
     actualizar: {
         wait: 'Actualizando Usuario',
         finished: 'Usuario actualizado correctamente!'
+    },
+    borrar: {
+        wait: 'Borrando Usuario',
+        finished: 'Usuario borrado correctamente!'
     }
 }
 
@@ -28,7 +32,7 @@ const loader = async (tipoLoader = '') => {
             console.clear()
             console.log(white(`${msgLoader[tipoLoader].wait}${loaderSprites[i++ % 4]}`))
             aux++
-            if (aux > 6) {
+            if (aux > 5) {
                 clearInterval(ID)
                 console.clear()
                 console.log(white(msgLoader[tipoLoader].finished))

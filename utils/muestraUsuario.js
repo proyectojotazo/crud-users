@@ -5,7 +5,7 @@ const templateUsuario = ( usuario = {} ) => {
     const arrDataUsuario = [nombre, apellidos, nombre_usuario, email, privilegios_usuario]
     const arrTitulos = ['Nombre', 'Apellido(s)', 'Nombre Usuario', 'Email', 'Tipo Usuario']
 
-    console.log()
+    // console.log()
     arrDataUsuario.forEach((value, i) => {
         console.log(`- ${white(arrTitulos[i])}: ${green(value)}`)
     }) 
