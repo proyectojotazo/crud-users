@@ -35,14 +35,16 @@ const menuUsuario = async (idUsuario = '', usuarios = [], db) => {
   let optSelected = ''
 
   do {
+
     const usuarioLogeado = usuarios.devuelveUsuario(idUsuario) // Recuperamos el usuario logeado por su id
 
     console.clear()
     msgSuperior('Página Principal')
-    const { option : selected } = await inquirer.prompt(opcionesUsuario)
-    optSelected = selected
+
+    await inquirer.prompt(opcionesUsuario).then( ({ option }) => optSelected = option)
 
     switch (optSelected) {
+
       case '1':
         // Mostrar datos usuario
         msgSuperior('Mis Datos')
@@ -51,17 +53,21 @@ const menuUsuario = async (idUsuario = '', usuarios = [], db) => {
 
       case '2':
         // Modificar datos usuario
-        const [nuevoDato, tipoDato] = await menuActualizaDatos() //Recuperamos el nuevo dato y el tipo 'nombre'/'apellido'...
+        await menuActualizaDatos().then( async ({ nuevoDato, campoSeleccionado, volver }) => {
+          if (!volver){
 
-        if (nuevoDato !== null && tipoDato !== 'volver') { // Si no presionamos en volver, nos devolverá ambos datos 
-          const usuarioActualizado = { ...usuarioLogeado } // Creamos una copia del usuario actual logeado
-          usuarioActualizado[tipoDato] = nuevoDato // Cambiamos el campo a actualizar
-          usuarios.modificaUsuario(usuarioLogeado, usuarioActualizado) // Modificamos en el listado el usuario a actualizar
-          db.guardarDB(usuarios.listado) // Guardamos en la db el nuevo listado con el usuario actualizado
-          await loader('actualizar')
-        }
+            const usuarioActualizado = { ...usuarioLogeado } // Creamos una copia del usuario actual logeado
+            usuarioActualizado[campoSeleccionado] = nuevoDato // Cambiamos el campo a actualizar
+
+            usuarios.modificaUsuario(usuarioLogeado, usuarioActualizado) // Modificamos en el listado el usuario a actualizar
+            db.guardarDB(usuarios.listado) // Guardamos en la db el nuevo listado con el usuario actualizado
+
+            await loader('actualizar')
+          }
+        })
 
         break;
+    
     }
     if (optSelected !== '3') await pause()
 

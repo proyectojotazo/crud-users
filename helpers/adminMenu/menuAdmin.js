@@ -1,12 +1,13 @@
 const inquirer = require('inquirer')
 
 const { menuActualizaDatos } = require('../menuActualizarDatos')
-const { muestraUsuariosModif } = require('./menuMuestraUsuariosModif')
+const { muestraUsuarios } = require('./menuMuestraUsuarios')
 
 const msgSuperior = require('../../utils/msgSuperior')
 const { loader } = require('../../utils/loader')
 const { templateUsuario } = require('../../utils/muestraUsuario')
 const { pause } = require('../../utils/pause')
+const { green } = require('../../utils/colores')
 
 const opcionesAdmin = [
   {
@@ -39,64 +40,95 @@ const opcionesAdmin = [
 ]
 
 const menuAdmin = async (idAdmin = '', usuarios = [], db) => {
+  
   let optSelected = ''
 
-
   do {
+
+    //Obtener el administrador logeado
     const adminLogeado = usuarios.devuelveUsuario(idAdmin)
 
-    // Conseguir el listado de todos los usuarios
+    //Obtener el listado de todos los usuarios
     const listadoUsuarios = usuarios.devuelveTipoUsuarios()
 
     console.clear()
     msgSuperior('Menú Administrador')
-    const { option : selected } = await inquirer.prompt(opcionesAdmin)
-    optSelected = selected
+
+    await inquirer.prompt(opcionesAdmin).then(({ option }) => optSelected = option)
 
     switch (optSelected) {
+      
       case '1':
-        // Mostrar datos usuario
+        // Mostrar datos propios
         msgSuperior('Mis Datos')
         templateUsuario(adminLogeado)
-        break;
-        
-      case '2':
-        // Modificar datos Administrador
-        const [nuevoDato, tipoDato] = await menuActualizaDatos() //Recuperamos el nuevo dato y el tipo 'nombre'/'apellido'...
 
-        if (nuevoDato !== null && tipoDato !== 'volver') { // Si no presionamos en volver, nos devolverá ambos datos 
-          const usuarioActualizado = { ...adminLogeado } // Creamos una copia del administrador actual logeado
-          usuarioActualizado[tipoDato] = nuevoDato // Cambiamos el campo a actualizar
-          usuarios.modificaUsuario(adminLogeado, usuarioActualizado) // Modificamos en el listado el administrador a actualizar
-          db.guardarDB(usuarios.listado) // Guardamos en la db el nuevo listado con el administrador actualizado
-          await loader('actualizar')
-        }
         break;
+
+      case '2':
+        // Modificar datos propios
+
+        await menuActualizaDatos().then(async ({ nuevoDato, campoSeleccionado, volver }) => {
+
+          if (!volver) {
+            const adminActualizado = { ...adminLogeado }
+            adminActualizado[campoSeleccionado] = nuevoDato
+
+            usuarios.modificaUsuario(adminLogeado, adminActualizado)
+            db.guardarDB(usuarios.listado)
+
+            await loader('actualizar')
+          }
+
+        })
+
+        break;
+
       case '3':
         // Modificar usuario
-
-        // Mostramos usuarios y obtenemos el id del usuario a modificar
-        const idUserSelected = await muestraUsuariosModif(listadoUsuarios)
-        // Importante! idUserSelected puede ser un id o 'null'
-        
-        if (!idUserSelected) break 
-        // Obtenemos el usuario a modificar
-        const usuarioAmodificar = usuarios.devuelveUsuario(idUserSelected)
-        
-        // Mostramos si queremos actualizar algún campo del mismo o queremos eliminarlo o volver a la selección de usuario
-        const [nuevoDatoUsuario, tipoDatoUsuario] = await menuActualizaDatos() //Recuperamos el nuevo dato y el tipo 'nombre'/'apellido'...
-
-        if (nuevoDatoUsuario !== null && tipoDatoUsuario !== 'volver') { // Si no presionamos en volver, nos devolverá ambos datos 
-          const usuarioActualizado = { ...usuarioAmodificar } // Creamos una copia del usuario actual logeado
-          usuarioActualizado[tipoDatoUsuario] = nuevoDatoUsuario // Cambiamos el campo a actualizar
-          usuarios.modificaUsuario(usuarioAmodificar, usuarioActualizado) // Modificamos en el listado el usuario a actualizar
-          db.guardarDB(usuarios.listado) // Guardamos en la db el nuevo listado con el usuario actualizado
-          await loader('actualizar')
+        if (listadoUsuarios.length === 0) {
+          console.log()
+          console.log(green('No hay usuarios resgistrados'))
+          break
         }
+
+        const userID = await muestraUsuarios(listadoUsuarios, 'Modificar')
+
+        if (!userID) break
+
+        const usuarioAmodificar = usuarios.devuelveUsuario(userID)
+        
+        await menuActualizaDatos().then(async ({ nuevoDato, campoSeleccionado, volver }) => {
+          if (!volver) {
+
+            const usuarioActualizado = { ...usuarioAmodificar }
+            usuarioActualizado[campoSeleccionado] = nuevoDato
+
+            usuarios.modificaUsuario(usuarioAmodificar, usuarioActualizado) // Modificamos en el listado el usuario a actualizar
+            db.guardarDB(usuarios.listado) // Guardamos en la db el nuevo listado con el usuario actualizado
+
+            await loader('actualizar')
+          }
+        })
+       
         break;
+
       case '4':
         // Eliminar usuarios
 
+        if (listadoUsuarios.length === 0) {
+          console.log()
+          console.log(green('No hay usuarios resgistrados'))
+          break
+        }
+
+        await muestraUsuarios(listadoUsuarios, 'Borrar').then( async ( data ) => {
+          if(data){
+            usuarios.borraUsuario(data)
+            db.guardarDB(usuarios.listado)
+            await loader('borrar')
+          }
+        })
 
         break;
     }
