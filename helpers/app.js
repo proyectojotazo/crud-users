@@ -30,19 +30,36 @@ const app = async () => {
     switch (optSelected) {
       case '1':
         // Inicio sesion
-        const { user_name, pass } = await iniciarSesion() // Lanzamos el menu de iniciar sesion y obtenemos el nombre de usuario y la contraseña
-        const usuarioLogeado = compruebaUsuario(user_name, pass, usuarios.listado) // Comprobamos que el nombre de usuario y la contraseña existan en nuestra base de datos y nos devuelve el usuario
 
-        if (usuarioLogeado !== null) { // En caso de que pase la comprobación pasaremos a logear al usuario
+        await iniciarSesion().then( async ({ user_name, pass }) => {
+          const usuarioLogeado = compruebaUsuario(user_name, pass, usuarios.listado)
 
-          const { privilegios_usuario, id } = usuarioLogeado // Obtenemos los privilegios para mostrar un menu en funcion de 'Administrador' o 'Usuario'
-          
-          if (privilegios_usuario === 'Administrador') {
-            await menuAdmin(id, usuarios, db)
-          } else {
-            await menuUsuario(id, usuarios, db)
+          if (usuarioLogeado){
+
+            const { privilegios_usuario, id } = usuarioLogeado
+
+            if (privilegios_usuario === 'Administrador') {
+              await menuAdmin(id, usuarios, db)
+            } else {
+              await menuUsuario(id, usuarios, db)
+            }
+
           }
-        }
+        })
+
+        // const { user_name, pass } = await iniciarSesion() // Lanzamos el menu de iniciar sesion y obtenemos el nombre de usuario y la contraseña
+        // const usuarioLogeado = compruebaUsuario(user_name, pass, usuarios.listado) // Comprobamos que el nombre de usuario y la contraseña existan en nuestra base de datos y nos devuelve el usuario
+
+        // if (usuarioLogeado) { // En caso de que pase la comprobación pasaremos a logear al usuario
+
+        //   const { privilegios_usuario, id } = usuarioLogeado // Obtenemos los privilegios para mostrar un menu en funcion de 'Administrador' o 'Usuario'
+          
+        //   if (privilegios_usuario === 'Administrador') {
+        //     await menuAdmin(id, usuarios, db)
+        //   } else {
+        //     await menuUsuario(id, usuarios, db)
+        //   }
+        // }
 
         break;
       case '2':
